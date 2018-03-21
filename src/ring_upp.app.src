@@ -1,0 +1,17 @@
+{application, ring_upp,
+ [{description, "An OTP application"},
+  {vsn, "0.1.0"},
+  {registered, []},
+  {mod, { ring_upp_app, []}},
+  {applications,
+   [kernel,
+    stdlib,
+    elli
+   ]},
+  {env,[]},
+  {modules, []},
+
+  {maintainers, []},
+  {licenses, ["Apache 2.0"]},
+  {links, []}
+ ]}.
