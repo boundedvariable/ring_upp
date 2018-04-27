@@ -28,6 +28,7 @@ start_link() ->
 
 %% Child :: {Id,StartFunc,Restart,Shutdown,Type,Modules}
 init([]) ->
+    ring_upp_push_if:start(),
 	ElliOpts = [{callback, ring_upp_http_handler}, {port, 3001}],
     ElliSpec = {
         ring_upp_http_handler,

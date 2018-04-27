@@ -13,13 +13,22 @@ handle('GET',[<<"hello">>, <<"world">>], _Req) ->
     %% to signal success.
     {ok, [], <<"Hello World!">>};
 
-handle('POST',[<<"api">>,<<"v1">>, <<"push">>], Req) ->
+handle('POST',[<<"api">>,<<"v1">>,<<"os">>,Os, <<"push">>], Req) ->
 	io:format("The req body : ~p",[Req]),
 	Event = jsx:decode(elli_request:body(Req)),
 	io:format("The req body : ~p",[Event]),
     %% Reply with a normal response. 'ok' can be used instead of '200'
     %% to signal success.
-    ok = zataas_kafka:send_event_to_mq(Event),
+    ok = ring_upp_push_if:push(Event),
+    {ok, [], <<"ok">>};
+
+handle('POST',[<<"api">>,<<"v1">>,<<"template">>,Temp, <<"mail">>], Req) ->
+    io:format("The req body : ~p",[Req]),
+    Event = jsx:decode(elli_request:body(Req)),
+    io:format("The req body : ~p",[Event]),
+    %% Reply with a normal response. 'ok' can be used instead of '200'
+    %% to signal success.
+    ok = ring_upp_mail_if:send(Event),
     {ok, [], <<"ok">>};
 
 handle(_, _, _Req) ->
